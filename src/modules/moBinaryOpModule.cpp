@@ -42,7 +42,7 @@ moBinaryOpModule::moBinaryOpModule() : moModule(MO_MODULE_INPUT|MO_MODULE_OUTPUT
 			"combine", "IplImage", "Operation Result");
 
 	this->properties["operation"] = new moProperty("add");
-	this->properties["operation"]->setChoices("add;substract;absdiff;multiply;divide;min;max");
+	this->properties["operation"]->setChoices("add;substract;absdiff;multiply;divide;min;max;and;or;xor");
 }
 
 moBinaryOpModule::~moBinaryOpModule() 
@@ -133,7 +133,18 @@ void moBinaryOpModule::update() {
 		{
 			cvMax(d1,d2,this->output_buffer);
 		}
-
+		else if (op == "and")
+		{
+			cvAnd(d1,d2,this->output_buffer);
+		}
+		else if (op == "or")
+		{
+			cvOr(d1,d2,this->output_buffer);
+		}
+		else if (op == "xor")
+		{
+			cvXor(d1,d2,this->output_buffer);
+		}
 		this->output->push(this->output_buffer);
 	}
 
