@@ -33,6 +33,7 @@ static moFactory *instance = NULL;
 void moFactory::init() {
 	REGISTER_MODULE(Amplify);
 	REGISTER_MODULE(BackgroundSubtract);
+	REGISTER_MODULE(BinaryOp);
 	REGISTER_MODULE(BlobTracker)
 	REGISTER_MODULE(Camera);
 	REGISTER_MODULE(Combine);
@@ -45,7 +46,10 @@ void moFactory::init() {
 	REGISTER_MODULE(Invert);
 	REGISTER_MODULE(Mask);
 	REGISTER_MODULE(MirrorImage);
+	REGISTER_MODULE(SampleHold);
+	REGISTER_MODULE(SaveImage);
 	REGISTER_MODULE(Smooth);
+	REGISTER_MODULE(Resize);
 	REGISTER_MODULE(Roi);
 	REGISTER_MODULE(Threshold);
 	REGISTER_MODULE(Tuio);
