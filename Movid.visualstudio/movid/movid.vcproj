@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="WS2_32.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200.lib cvaux200.lib cxcore200.lib cxts200.lib highgui200.lib ml200.lib"
+				AdditionalDependencies="WS2_32.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200d.lib cvaux200d.lib cxcore200d.lib cxts200d.lib highgui200d.lib ml200d.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)$(ConfigurationName)&quot;;&quot;$(TargetDir)&quot;;&quot;$(SolutionDir)..\contrib\ptypes-2.1.1\win32\$(ConfigurationName)&quot;;&quot;$(SolutionDir)..\contrib\libevent-1.4.13-stable\WIN32-Prj\$(ConfigurationName)&quot;;C:\OpenCV\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
@@ -131,7 +131,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="WS2_32.lib jpeg.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200.lib cvaux200.lib cxcore200.lib cxts200.lib highgui200.lib ml200.lib"
+				AdditionalDependencies="WS2_32.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200.lib cvaux200.lib cxcore200.lib cxts200.lib highgui200.lib ml200.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)$(ConfigurationName)&quot;;&quot;$(TargetDir)&quot;;&quot;$(SolutionDir)..\contrib\ptypes-2.1.1\win32\$(ConfigurationName)&quot;;&quot;$(SolutionDir)..\contrib\libevent-1.4.13-stable\WIN32-Prj\$(ConfigurationName)&quot;;C:\OpenCV\lib"
 			/>
 			<Tool
@@ -219,6 +219,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moBinaryOpModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moBlobTrackerModule.h"
 					>
 				</File>
@@ -283,7 +287,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moResizeModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moRoiModule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moSampleHoldModule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moSaveImageModule.h"
 					>
 				</File>
 				<File
@@ -367,6 +383,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moBinaryOpModule.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moBlobTrackerModule.cpp"
 					>
 				</File>
@@ -439,7 +459,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moResizeModule.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moRoiModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moSampleHoldModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moSaveImageModule.cpp"
 					>
 				</File>
 				<File
