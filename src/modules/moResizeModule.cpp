@@ -60,12 +60,23 @@ void moResizeModule::applyFilter(IplImage *src)
 	size.width = this->property("width").asInteger();
 	size.height = this->property("height").asInteger();
 
-	if (this->output_buffer->width != size.width || this->output_buffer->height != size.height)
+	if (!this->output_buffer)
 	{
-		cvReleaseImage(&this->output_buffer);
 		this->output_buffer = cvCreateImage(size,src->depth,src->nChannels);
 	}
-	cvResize(src,this->output_buffer,this->toCvType(this->property("interpolation").asString()));	
+	else
+	{
+		if (this->output_buffer->width != size.width || this->output_buffer->height != size.height)
+		{
+			cvReleaseImage(&this->output_buffer);
+			this->output_buffer = cvCreateImage(size,src->depth,src->nChannels);
+		}
+	}
+
+	if (this->output_buffer)
+	{
+		cvResize(src,this->output_buffer,this->toCvType(this->property("interpolation").asString()));
+	}
 }
 
 

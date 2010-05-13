@@ -93,7 +93,8 @@ void moSaveImageModule::update()
 
 	this->input->lock();
 	d1 = (IplImage *)this->input->getData();
-	if ( d1 == NULL ) {
+	if ( d1 == NULL ) 
+	{
 		this->input->unlock();
 		return;
 	}
@@ -101,13 +102,15 @@ void moSaveImageModule::update()
 	d1 = cvCloneImage(d1);
 	this->input->unlock();
 
-	if (this->property("dosave").asBool())
-	{	
-		cvSaveImage(this->property("path").asString().c_str(),d1);
-		this->property("dosave").set(false);
+	if (d1)
+	{
+		if (this->property("dosave").asBool())
+		{	
+			cvSaveImage(this->property("path").asString().c_str(),d1);
+			this->property("dosave").set(false);
+		}
+		cvReleaseImage(&d1);
 	}
-
-	cvReleaseImage(&d1);
 }
 
 

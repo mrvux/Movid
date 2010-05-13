@@ -45,7 +45,12 @@ moBinaryOpModule::moBinaryOpModule() : moModule(MO_MODULE_INPUT|MO_MODULE_OUTPUT
 	this->properties["operation"]->setChoices("add;substract;multiply;divide;min;max");
 }
 
-moBinaryOpModule::~moBinaryOpModule() {
+moBinaryOpModule::~moBinaryOpModule() 
+{
+	if (this->output_buffer)
+	{	
+		cvReleaseImage(&this->output_buffer);
+	}
 }
 
 void moBinaryOpModule::notifyData(moDataStream *input) 
@@ -74,7 +79,8 @@ void moBinaryOpModule::update() {
 
 	this->input1->lock();
 	d1 = (IplImage *)this->input1->getData();
-	if ( d1 == NULL ) {
+	if ( d1 == NULL ) 
+	{
 		this->input1->unlock();
 		return;
 	}
@@ -83,44 +89,58 @@ void moBinaryOpModule::update() {
 
 	this->input2->lock();
 	d2 = (IplImage*)this->input2->getData();
-	if ( d2 == NULL ) {
+	if ( d2 == NULL ) 
+	{
 		this->input2->unlock();
+		if (d1)
+		{ 
+			cvReleaseImage(&d1);
+		}
 		return;
 	}
 	d2 = cvCloneImage(d2);
 	this->input2->unlock();
 
-	//TODO: Use function pointer dictionary
-	std::string op = this->property("operation").asString();
-	if (op == "add")
+	if (d1 && d2 && this->output_buffer)
 	{
-		cvAdd(d1,d2,this->output_buffer);
-	}
-	else if (op == "substract")
-	{
-		cvSub(d1,d2,this->output_buffer);
-	}
-	else if (op == "multiply")
-	{
-		cvMul(d1,d2,this->output_buffer);
-	}
-	else if (op == "divide")
-	{
-		cvDiv(d1,d2,this->output_buffer);
-	}
-	else if (op == "min")
-	{
-		cvMin(d1,d2,this->output_buffer);
-	}
-	else if (op == "max")
-	{
-		cvMax(d1,d2,this->output_buffer);
+		//TODO: Use function pointer dictionary
+		std::string op = this->property("operation").asString();
+		if (op == "add")
+		{
+			cvAdd(d1,d2,this->output_buffer);
+		}
+		else if (op == "substract")
+		{
+			cvSub(d1,d2,this->output_buffer);
+		}
+		else if (op == "multiply")
+		{
+			cvMul(d1,d2,this->output_buffer);
+		}
+		else if (op == "divide")
+		{
+			cvDiv(d1,d2,this->output_buffer);
+		}
+		else if (op == "min")
+		{
+			cvMin(d1,d2,this->output_buffer);
+		}
+		else if (op == "max")
+		{
+			cvMax(d1,d2,this->output_buffer);
+		}
+
+		this->output->push(this->output_buffer);
 	}
 
-	this->output->push(this->output_buffer);
-
-	cvReleaseImage(&d1);
-	cvReleaseImage(&d2);
+	if (d1)
+	{
+		cvReleaseImage(&d1);
+	}
+	if (d2)
+	{
+		cvReleaseImage(&d2);
+	}
 }
 
 void moBinaryOpModule::setInput(moDataStream *stream, int n) {
