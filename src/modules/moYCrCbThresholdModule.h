@@ -16,14 +16,21 @@
  **********************************************************************/
 
 
-#ifndef MO_DAEMON_H
-#define MO_DAEMON_H
+#ifndef MO_YCRCBTHRESHOLD_MODULE_H
+#define MO_YCRCBTHRESHOLD_MODULE_H
 
-class moDaemon {
+#include "moImageFilterModule.h"
+
+class moYCrCbThresholdModule : public moImageFilterModule{
 public:
-	static void init();
-	static bool detach(std::string pidfilename);
-	static void cleanup();
+	moYCrCbThresholdModule();
+	virtual void allocateBuffers();
+	virtual ~moYCrCbThresholdModule();
+
+protected:
+	void applyFilter(IplImage *);
+	MODULE_INTERNALS();
 };
 
 #endif
+

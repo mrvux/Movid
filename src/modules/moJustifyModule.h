@@ -16,14 +16,30 @@
  **********************************************************************/
 
 
-#ifndef MO_DAEMON_H
-#define MO_DAEMON_H
+#ifndef MO_JUSTIFY_MODULE_H
+#define MO_JUSTIFY_MODULE_H
 
-class moDaemon {
+#include "../moModule.h"
+
+class moJustifyModule : public moModule{
 public:
-	static void init();
-	static bool detach(std::string pidfilename);
-	static void cleanup();
+	moJustifyModule();
+	virtual ~moJustifyModule();
+
+	virtual void setInput(moDataStream* stream, int n=0);
+	virtual moDataStream *getInput(int n=0);
+	virtual moDataStream *getOutput(int n=0);
+	virtual void notifyData(moDataStream *input);
+
+	void update();
+
+private:
+	moDataStream *input;
+	moDataStream *output;
+	moDataGenericList blobs;
+
+	MODULE_INTERNALS();
 };
 
 #endif
+

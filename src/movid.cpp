@@ -21,6 +21,8 @@
 #include <winsock2.h>
 #include <windows.h>
 #include <Xgetopt.h>
+#else
+#include <getopt.h>
 #endif
 
 
@@ -28,7 +30,6 @@
 #include <sys/stat.h>
 #include <sys/queue.h>
 #include <signal.h>
-#include <getopt.h>
 
 #ifndef WIN32
 #include <sys/socket.h>
@@ -75,6 +76,8 @@ static bool config_syslog = false;
 static bool config_httpserver = true;
 static bool test_mode = false;
 static std::string config_pipelinefn = "";
+static std::string config_guidir = MO_GUIDIR;
+static std::string config_pidfile = "/var/run/movid.pid";
 static struct evhttp *server = NULL;
 int g_config_delay = 5;
 
@@ -813,7 +816,7 @@ void web_file(struct evhttp_request *req, void *arg) {
 	}
 
 	snprintf(filename, sizeof(filename), "%s/%s",
-		MO_GUIDIR, req->uri + sizeof("/gui/") - 1);
+		config_guidir.c_str(), req->uri + sizeof("/gui/") - 1);
 
 	LOG(MO_INFO, "web: GET " << filename);
 	fd = fopen(filename, "rb");
@@ -867,7 +870,9 @@ void usage(void) {
 		   "  -i  --info <modulename>     Show infos on a module            \n" \
 		   "  -s  --syslog                Send loggings to syslog           \n" \
 		   "  -d  --detach                Detach from console               \n" \
+		   "  -p  --pidfile <filename>    Write PID into this file          \n" \
 		   "  -n  --no_http               No webserver                      \n" \
+		   "  -g  --guidir <filename>     Directory for GUI                 \n" \
 		   "  -l  --pipeline <filename>   Read a pipeline from filename     \n",
 		   MO_DAEMON
 	);
@@ -886,19 +891,27 @@ void describe(const char *name) {
 
 int parse_options(int *argc, char ***argv) {
 	int ch;
+#ifndef WIN32
 	static struct option options[] = {
 		{"info", 1, 0, 'i'},
 		{"pipeline", 1, 0, 'l'},
 		{"syslog", 0, 0, 's'},
 		{"detach", 0, 0, 'd'},
+		{"pidfile", 1, 0, 'p'},
+		{"guidir", 1, 0, 'g'},
 		{"no_http", 0, 0, 'n'},
 		{"test", 0, 0, 't'},
 		{"help", 0, 0, 'h'},
 		{0, 0, 0, 0}
 	};
+#endif
 	while (1) {
 		int option_index = 0;
-		ch = getopt_long(*argc, *argv, "hl:sdni:t", options, &option_index);
+#ifndef WIN32
+		ch = getopt_long(*argc, *argv, "hp:g:l:sdni:t", options, &option_index);
+#else
+		ch = getopt(*argc, *argv, "hp:g:l:sdni:t");
+#endif
 		if (ch == -1)
 			break;
 		switch ( ch ) {
@@ -909,6 +922,12 @@ int parse_options(int *argc, char ***argv) {
 			case 'd':
 				config_detach = true;
 				break;
+			case 'p':
+				config_pidfile = std::string(optarg);
+				break;
+			case 'g':
+				config_guidir = std::string(optarg);
+				break;
 			case 'n':
 				config_httpserver = false;
 				break;
@@ -916,6 +935,7 @@ int parse_options(int *argc, char ***argv) {
 				config_pipelinefn = std::string(optarg);
 				break;
 			case 'i':
+				moDaemon::init();
 				describe(optarg);
 				return 0; /* leave properly */
 			case 't':
@@ -960,7 +980,7 @@ int main(int argc, char **argv) {
 	
 	// detach from console
 	if (config_detach)
-		if (! moDaemon::detach())
+		if (! moDaemon::detach(config_pidfile))
 			return exit_ret;
 
 	// parse pipeline passed in parameters

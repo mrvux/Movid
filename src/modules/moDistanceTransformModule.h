@@ -16,14 +16,27 @@
  **********************************************************************/
 
 
-#ifndef MO_DAEMON_H
-#define MO_DAEMON_H
+#ifndef MO_DISTANCETRANSFORM_MODULE_H
+#define MO_DISTANCETRANSFORM_MODULE_H
 
-class moDaemon {
+#include "moImageFilterModule.h"
+
+class moDistanceTransformModule : public moImageFilterModule{
 public:
-	static void init();
-	static bool detach(std::string pidfilename);
-	static void cleanup();
+	moDistanceTransformModule();
+	virtual ~moDistanceTransformModule();
+
+protected:
+	void applyFilter(IplImage*);
+	void allocateBuffers();
+	int toCvType(const std::string&);
+	int toCvMaskSize(const std::string&);
+	int width, height;
+	IplImage* converted;
+	IplImage* dist;
+
+	MODULE_INTERNALS();
 };
 
 #endif
+

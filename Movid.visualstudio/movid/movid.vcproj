@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="WS2_32.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200d.lib cvaux200d.lib cxcore200d.lib cxts200d.lib highgui200d.lib ml200d.lib"
+				AdditionalDependencies="WS2_32.lib libjson.lib libevent.lib libfidtrack.lib ptypes.lib WOscLib.lib cv200.lib cvaux200.lib cxcore200.lib cxts200.lib highgui200.lib ml200.lib"
 				AdditionalLibraryDirectories="&quot;$(SolutionDir)$(ConfigurationName)&quot;;&quot;$(TargetDir)&quot;;&quot;$(SolutionDir)..\contrib\ptypes-2.1.1\win32\$(ConfigurationName)&quot;;&quot;$(SolutionDir)..\contrib\libevent-1.4.13-stable\WIN32-Prj\$(ConfigurationName)&quot;;C:\OpenCV\lib"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
@@ -215,10 +215,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\modules\moArithmeticModule.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\src\modules\moBackgroundSubtractModule.h"
 					>
 				</File>
@@ -231,15 +227,19 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moCannyModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moCombineModule.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\modules\moCompareModule.h"
+					RelativePath="..\..\src\modules\moDilateModule.h"
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\modules\moDilateModule.h"
+					RelativePath="..\..\src\modules\moDistanceTransformModule.h"
 					>
 				</File>
 				<File
@@ -252,6 +252,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\modules\moFiducialTrackerModule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moFingerTipFinderModule.h"
 					>
 				</File>
 				<File
@@ -283,6 +287,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moJustifyModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moMaskModule.h"
 					>
 				</File>
@@ -291,19 +299,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\modules\moResizeModule.h"
+					RelativePath="..\..\src\modules\moPeakFinderModule.h"
 					>
 				</File>
 				<File
 					RelativePath="..\..\src\modules\moRoiModule.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\modules\moSampleHoldModule.h"
-					>
-				</File>
-				<File
-					RelativePath="..\..\src\modules\moSaveImageModule.h"
 					>
 				</File>
 				<File
@@ -320,6 +320,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\modules\moVideoModule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moYCrCbThresholdModule.h"
 					>
 				</File>
 			</Filter>
@@ -387,6 +391,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moArithmeticModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moBackgroundSubtractModule.cpp"
 					>
 				</File>
@@ -403,10 +411,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\..\src\modules\moCannyModule.h"
-					>
-				</File>
-				<File
 					RelativePath="..\..\src\modules\moCombineModule.cpp"
 					>
 				</File>
@@ -415,7 +419,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moCompareModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moDilateModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moDistanceTransformModule.cpp"
 					>
 				</File>
 				<File
@@ -428,6 +440,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\modules\moFiducialTrackerModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moFingerTipFinderModule.cpp"
 					>
 				</File>
 				<File
@@ -459,6 +475,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moJustifyModule.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moMaskModule.cpp"
 					>
 				</File>
@@ -467,7 +487,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moPeakFinderModule.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moResizeModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moResizeModule.h"
 					>
 				</File>
 				<File
@@ -479,7 +507,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\..\src\modules\moSampleHoldModule.h"
+					>
+				</File>
+				<File
 					RelativePath="..\..\src\modules\moSaveImageModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moSaveImageModule.h"
 					>
 				</File>
 				<File
@@ -496,6 +532,10 @@
 				</File>
 				<File
 					RelativePath="..\..\src\modules\moVideoModule.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\..\src\modules\moYCrCbThresholdModule.cpp"
 					>
 				</File>
 			</Filter>

@@ -16,14 +16,32 @@
  **********************************************************************/
 
 
-#ifndef MO_DAEMON_H
-#define MO_DAEMON_H
+#ifndef MO_PeakFinder_MODULE_H
+#define MO_PeakFinder_MODULE_H
 
-class moDaemon {
+#include "moImageFilterModule.h"
+#include "../moDataGenericContainer.h"
+
+typedef std::pair<double, moPoint> doubleToPoint;
+
+class moPeakFinderModule : public moImageFilterModule{
 public:
-	static void init();
-	static bool detach(std::string pidfilename);
-	static void cleanup();
+	moPeakFinderModule();
+	virtual ~moPeakFinderModule();
+
+protected:
+	std::vector<doubleToPoint> peaks;
+	moDataGenericList *blobs;
+	moDataStream *output_data;
+	void findRange(IplImage*);
+	void removeDuplicates();
+	void findMaxima();
+	void drawPeaks();
+	void applyFilter(IplImage*);
+	moDataStream* getOutput(int);
+
+	MODULE_INTERNALS();
 };
 
 #endif
+

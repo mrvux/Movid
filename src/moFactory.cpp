@@ -32,8 +32,8 @@ static moFactory *instance = NULL;
 
 void moFactory::init() {
 	REGISTER_MODULE(Amplify);
+	REGISTER_MODULE(Arithmetic);
 	REGISTER_MODULE(BackgroundSubtract);
-	REGISTER_MODULE(BinaryOp);
 	REGISTER_MODULE(BlobTracker)
 	REGISTER_MODULE(Camera);
 	REGISTER_MODULE(Combine);
@@ -44,6 +44,7 @@ void moFactory::init() {
 	REGISTER_MODULE(Image);
 	REGISTER_MODULE(ImageDisplay);
 	REGISTER_MODULE(Invert);
+	REGISTER_MODULE(Justify);
 	REGISTER_MODULE(Mask);
 	REGISTER_MODULE(MirrorImage);
 	REGISTER_MODULE(SampleHold);
@@ -58,6 +59,10 @@ void moFactory::init() {
 	REGISTER_MODULE(Dilate);
 	REGISTER_MODULE(Canny);
 	REGISTER_MODULE(Hsv);
+	REGISTER_MODULE(DistanceTransform);
+	REGISTER_MODULE(PeakFinder);
+	REGISTER_MODULE(FingerTipFinder);
+	REGISTER_MODULE(YCrCbThreshold);
 	//DoNotRemoveThisComment
 	LOG(MO_INFO, "register " << moFactory::getInstance()->list().size() << " modules");
 }

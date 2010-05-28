@@ -16,14 +16,22 @@
  **********************************************************************/
 
 
-#ifndef MO_DAEMON_H
-#define MO_DAEMON_H
+#ifndef UMO_FINGERTIPFINDER_MODULE_H
+#define UMO_FINGERTIPFINDER_MODULE_H
 
-class moDaemon {
+#include "moImageFilterModule.h"
+
+class moFingerTipFinderModule : public moImageFilterModule{
 public:
-	static void init();
-	static bool detach(std::string pidfilename);
-	static void cleanup();
+	moFingerTipFinderModule();
+	virtual ~moFingerTipFinderModule();
+
+protected:
+	CvMemStorage *storage;
+	void applyFilter(IplImage*);
+
+	MODULE_INTERNALS();
 };
 
 #endif
+
