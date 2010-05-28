@@ -48,11 +48,13 @@ SOURCES = \
 	src/moThread.cpp \
 	src/moUtils.cpp \
 	src/modules/moAmplifyModule.cpp \
+	src/modules/moArithmeticModule.cpp \
 	src/modules/moBackgroundSubtractModule.cpp \
 	src/modules/moBlobTrackerModule.cpp \
 	src/modules/moCameraModule.cpp \
 	src/modules/moCannyModule.cpp \
 	src/modules/moCombineModule.cpp \
+	src/modules/moCompareModule.cpp \
 	src/modules/moFingerTipFinderModule.cpp \
 	src/modules/moDilateModule.cpp \
 	src/modules/moDistanceTransformModule.cpp \
@@ -70,7 +72,10 @@ SOURCES = \
 	src/modules/moMaskModule.cpp \
 	src/modules/moMirrorImageModule.cpp \
 	src/modules/moPeakFinderModule.cpp \
+	src/modules/moResizeModule.cpp \
 	src/modules/moRoiModule.cpp \
+	src/modules/moSampleHoldModule.cpp \
+	src/modules/moSaveImageModule.cpp \
 	src/modules/moSmoothModule.cpp \
 	src/modules/moThresholdModule.cpp \
 	src/modules/moTuioModule.cpp \
