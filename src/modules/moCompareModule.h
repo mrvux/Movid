@@ -16,18 +16,18 @@
  **********************************************************************/
 
 
-#ifndef MO_COMBINE_H
-#define MO_COMBINE_H
+#ifndef MO_COMPARE_H
+#define MO_COMPARE_H
 
 #include "../moModule.h"
 #include "cv.h"
 
 class moDataStream;
 
-class moBinaryOpModule : public moModule {
+class moCompareModule : public moModule {
 public:
-	moBinaryOpModule();
-	virtual ~moBinaryOpModule();
+	moCompareModule();
+	virtual ~moCompareModule();
 
 	virtual void setInput(moDataStream* stream, int n=0);
 	virtual moDataStream *getInput(int n=0);
@@ -37,6 +37,7 @@ public:
 	void update();
 
 private:
+	int getCvOperation(const std::string &op);
 	moDataStream *input1;
 	moDataStream *input2;
 	moDataStream *output;

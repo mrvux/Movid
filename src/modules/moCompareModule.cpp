@@ -21,11 +21,11 @@
 #include "../moLog.h"
 #include "../moModule.h"
 #include "../moDataStream.h"
-#include "moBinaryOpModule.h"
+#include "moCompareModule.h"
 
-MODULE_DECLARE(BinaryOp, "mrvux", "Performs per element operation on two images");
+MODULE_DECLARE(Compare, "mrvux", "Performs comparison operation on two images");
 
-moBinaryOpModule::moBinaryOpModule() : moModule(MO_MODULE_INPUT|MO_MODULE_OUTPUT, 2, 1) {
+moCompareModule::moCompareModule() : moModule(MO_MODULE_INPUT|MO_MODULE_OUTPUT, 2, 1) {
 	MODULE_INIT();
 
 	this->input1 = NULL;
@@ -41,11 +41,11 @@ moBinaryOpModule::moBinaryOpModule() : moModule(MO_MODULE_INPUT|MO_MODULE_OUTPUT
 	this->output_infos[0] = new moDataStreamInfo(
 			"combine", "IplImage", "Operation Result");
 
-	this->properties["operation"] = new moProperty("add");
-	this->properties["operation"]->setChoices("add;substract;absdiff;multiply;divide;min;max;and;or;xor");
+	this->properties["operation"] = new moProperty("equal");
+	this->properties["operation"]->setChoices("equal;greater;greaterequal;lower;lowerequal;notequal");
 }
 
-moBinaryOpModule::~moBinaryOpModule() 
+moCompareModule::~moCompareModule() 
 {
 	if (this->output_buffer)
 	{	
@@ -53,7 +53,7 @@ moBinaryOpModule::~moBinaryOpModule()
 	}
 }
 
-void moBinaryOpModule::notifyData(moDataStream *input) 
+void moCompareModule::notifyData(moDataStream *input) 
 {
 	IplImage* src = static_cast<IplImage*>(input->getData());
 	assert( input->getFormat() == "IplImage" );
@@ -61,18 +61,38 @@ void moBinaryOpModule::notifyData(moDataStream *input)
 		return;
 
 	if ( this->output_buffer == NULL ) {
-		this->output_buffer = cvCreateImage(cvGetSize(src), src->depth, src->nChannels);
+		this->output_buffer = cvCreateImage(cvGetSize(src), IPL_DEPTH_8U, src->nChannels);
 	} else {
 		if ( this->output_buffer->width != src->width ||
 			 this->output_buffer->height != src->height ) {
-			LOG(MO_CRITICAL, "cannot combine image with different size");
+			LOG(MO_CRITICAL, "cannot compare image with different size");
 		}
 	}
 
 	this->notifyUpdate();
 }
 
-void moBinaryOpModule::update() {
+int moCompareModule::getCvOperation(const std::string &op) 
+{
+	if ( op == "equal" )
+		return CV_CMP_EQ;
+	if ( op == "greater" )
+		return CV_CMP_GT;
+	if ( op == "greaterequal" )
+		return CV_CMP_GE;
+	if ( op == "lower" )
+		return CV_CMP_LT;
+	if ( op == "lowerequal" )
+		return CV_CMP_LE;
+	if ( op == "notequal" )
+		return CV_CMP_NE;
+
+	LOGM(MO_ERROR,"Unsupported operation");
+	this->setError("Unsupported operation");
+	return 0;
+}
+
+void moCompareModule::update() {
 	IplImage *d1 = NULL, *d2 = NULL;
 	if ( this->input1 == NULL || this->input2 == NULL || this->output_buffer == NULL )
 		return;
@@ -105,46 +125,8 @@ void moBinaryOpModule::update() {
 	{
 		//TODO: Use function pointer dictionary
 		std::string op = this->property("operation").asString();
-		if (op == "add")
-		{
-			cvAdd(d1,d2,this->output_buffer);
-		}
-		else if (op == "absdiff")
-		{
-			cvAbsDiff(d1,d2,this->output_buffer);
-		}
-		else if (op == "substract")
-		{
-			cvSub(d1,d2,this->output_buffer);
-		}
-		else if (op == "multiply")
-		{
-			cvMul(d1,d2,this->output_buffer);
-		}
-		else if (op == "divide")
-		{
-			cvDiv(d1,d2,this->output_buffer);
-		}
-		else if (op == "min")
-		{
-			cvMin(d1,d2,this->output_buffer);
-		}
-		else if (op == "max")
-		{
-			cvMax(d1,d2,this->output_buffer);
-		}
-		else if (op == "and")
-		{
-			cvAnd(d1,d2,this->output_buffer);
-		}
-		else if (op == "or")
-		{
-			cvOr(d1,d2,this->output_buffer);
-		}
-		else if (op == "xor")
-		{
-			cvXor(d1,d2,this->output_buffer);
-		}
+
+		cvCmp(d1,d2,this->output_buffer,this->getCvOperation(op));
 		this->output->push(this->output_buffer);
 	}
 
@@ -158,7 +140,7 @@ void moBinaryOpModule::update() {
 	}
 }
 
-void moBinaryOpModule::setInput(moDataStream *stream, int n) {
+void moCompareModule::setInput(moDataStream *stream, int n) {
 	assert( n == 0 || n == 1 );
 
 	if ( n == 0 ) {
@@ -185,7 +167,7 @@ void moBinaryOpModule::setInput(moDataStream *stream, int n) {
 		stream->addObserver(this);
 }
 
-moDataStream *moBinaryOpModule::getInput(int n) {
+moDataStream *moCompareModule::getInput(int n) {
 	if ( n == 0 )
 		return this->input1;
 	if ( n == 1 )
@@ -195,7 +177,7 @@ moDataStream *moBinaryOpModule::getInput(int n) {
 	return NULL;
 }
 
-moDataStream *moBinaryOpModule::getOutput(int n) {
+moDataStream *moCompareModule::getOutput(int n) {
 	if ( n != 0 ) {
 		this->setError("Invalid output index");
 		return NULL;
